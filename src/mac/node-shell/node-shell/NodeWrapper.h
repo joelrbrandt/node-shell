@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NodeWrapper : NSObject
+@interface NodeWrapper : NSObject {
+    NSTask *task;
+}
+
+-(void) start;
+-(void) stop;
+-(void) getData: (NSNotification *)aNotification;
 
 @end

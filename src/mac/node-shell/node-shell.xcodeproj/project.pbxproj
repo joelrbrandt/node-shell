@@ -1,0 +1,321 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7FB1E85D156A7C9800CDD2CC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FB1E85C156A7C9800CDD2CC /* Cocoa.framework */; };
+		7FB1E867156A7C9800CDD2CC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7FB1E865156A7C9800CDD2CC /* InfoPlist.strings */; };
+		7FB1E869156A7C9800CDD2CC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB1E868156A7C9800CDD2CC /* main.m */; };
+		7FB1E86D156A7C9800CDD2CC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 7FB1E86B156A7C9800CDD2CC /* Credits.rtf */; };
+		7FB1E870156A7C9800CDD2CC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB1E86F156A7C9800CDD2CC /* AppDelegate.m */; };
+		7FB1E873156A7C9800CDD2CC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7FB1E871156A7C9800CDD2CC /* MainMenu.xib */; };
+		7FB1E87F156A80C700CDD2CC /* NodeWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB1E87E156A80C700CDD2CC /* NodeWrapper.m */; };
+		7FB1E882156A896800CDD2CC /* server.js in Resources */ = {isa = PBXBuildFile; fileRef = 7FB1E880156A88E700CDD2CC /* server.js */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		7FB1E858156A7C9800CDD2CC /* node-shell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "node-shell.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7FB1E85C156A7C9800CDD2CC /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		7FB1E85F156A7C9800CDD2CC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		7FB1E860156A7C9800CDD2CC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		7FB1E861156A7C9800CDD2CC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		7FB1E864156A7C9800CDD2CC /* node-shell-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "node-shell-Info.plist"; sourceTree = "<group>"; };
+		7FB1E866156A7C9800CDD2CC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7FB1E868156A7C9800CDD2CC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		7FB1E86A156A7C9800CDD2CC /* node-shell-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "node-shell-Prefix.pch"; sourceTree = "<group>"; };
+		7FB1E86C156A7C9800CDD2CC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		7FB1E86E156A7C9800CDD2CC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		7FB1E86F156A7C9800CDD2CC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		7FB1E872156A7C9800CDD2CC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		7FB1E87D156A80C700CDD2CC /* NodeWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeWrapper.h; sourceTree = "<group>"; };
+		7FB1E87E156A80C700CDD2CC /* NodeWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NodeWrapper.m; sourceTree = "<group>"; };
+		7FB1E880156A88E700CDD2CC /* server.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = server.js; path = server/server.js; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7FB1E855156A7C9800CDD2CC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7FB1E85D156A7C9800CDD2CC /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7FB1E84D156A7C9800CDD2CC = {
+			isa = PBXGroup;
+			children = (
+				7FB1E862156A7C9800CDD2CC /* node-shell */,
+				7FB1E85B156A7C9800CDD2CC /* Frameworks */,
+				7FB1E859156A7C9800CDD2CC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7FB1E859156A7C9800CDD2CC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7FB1E858156A7C9800CDD2CC /* node-shell.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7FB1E85B156A7C9800CDD2CC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7FB1E85C156A7C9800CDD2CC /* Cocoa.framework */,
+				7FB1E85E156A7C9800CDD2CC /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7FB1E85E156A7C9800CDD2CC /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7FB1E85F156A7C9800CDD2CC /* AppKit.framework */,
+				7FB1E860156A7C9800CDD2CC /* CoreData.framework */,
+				7FB1E861156A7C9800CDD2CC /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		7FB1E862156A7C9800CDD2CC /* node-shell */ = {
+			isa = PBXGroup;
+			children = (
+				7FB1E86E156A7C9800CDD2CC /* AppDelegate.h */,
+				7FB1E86F156A7C9800CDD2CC /* AppDelegate.m */,
+				7FB1E87D156A80C700CDD2CC /* NodeWrapper.h */,
+				7FB1E87E156A80C700CDD2CC /* NodeWrapper.m */,
+				7FB1E871156A7C9800CDD2CC /* MainMenu.xib */,
+				7FB1E863156A7C9800CDD2CC /* Supporting Files */,
+			);
+			path = "node-shell";
+			sourceTree = "<group>";
+		};
+		7FB1E863156A7C9800CDD2CC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7FB1E880156A88E700CDD2CC /* server.js */,
+				7FB1E864156A7C9800CDD2CC /* node-shell-Info.plist */,
+				7FB1E865156A7C9800CDD2CC /* InfoPlist.strings */,
+				7FB1E868156A7C9800CDD2CC /* main.m */,
+				7FB1E86A156A7C9800CDD2CC /* node-shell-Prefix.pch */,
+				7FB1E86B156A7C9800CDD2CC /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7FB1E857156A7C9800CDD2CC /* node-shell */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7FB1E876156A7C9800CDD2CC /* Build configuration list for PBXNativeTarget "node-shell" */;
+			buildPhases = (
+				7FB1E854156A7C9800CDD2CC /* Sources */,
+				7FB1E855156A7C9800CDD2CC /* Frameworks */,
+				7FB1E856156A7C9800CDD2CC /* Resources */,
+				7FB1E884156A899C00CDD2CC /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "node-shell";
+			productName = "node-shell";
+			productReference = 7FB1E858156A7C9800CDD2CC /* node-shell.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7FB1E84F156A7C9800CDD2CC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = "Adobe Systems";
+			};
+			buildConfigurationList = 7FB1E852156A7C9800CDD2CC /* Build configuration list for PBXProject "node-shell" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7FB1E84D156A7C9800CDD2CC;
+			productRefGroup = 7FB1E859156A7C9800CDD2CC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7FB1E857156A7C9800CDD2CC /* node-shell */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7FB1E856156A7C9800CDD2CC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7FB1E867156A7C9800CDD2CC /* InfoPlist.strings in Resources */,
+				7FB1E86D156A7C9800CDD2CC /* Credits.rtf in Resources */,
+				7FB1E873156A7C9800CDD2CC /* MainMenu.xib in Resources */,
+				7FB1E882156A896800CDD2CC /* server.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7FB1E884156A899C00CDD2CC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cp ../../../node/node $BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/node-executable\ncp -r ../../../node/node_modules $BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7FB1E854156A7C9800CDD2CC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7FB1E869156A7C9800CDD2CC /* main.m in Sources */,
+				7FB1E870156A7C9800CDD2CC /* AppDelegate.m in Sources */,
+				7FB1E87F156A80C700CDD2CC /* NodeWrapper.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		7FB1E865156A7C9800CDD2CC /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7FB1E866156A7C9800CDD2CC /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		7FB1E86B156A7C9800CDD2CC /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7FB1E86C156A7C9800CDD2CC /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		7FB1E871156A7C9800CDD2CC /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7FB1E872156A7C9800CDD2CC /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7FB1E874156A7C9800CDD2CC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		7FB1E875156A7C9800CDD2CC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+		7FB1E877156A7C9800CDD2CC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "node-shell/node-shell-Prefix.pch";
+				INFOPLIST_FILE = "node-shell/node-shell-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		7FB1E878156A7C9800CDD2CC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "node-shell/node-shell-Prefix.pch";
+				INFOPLIST_FILE = "node-shell/node-shell-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7FB1E852156A7C9800CDD2CC /* Build configuration list for PBXProject "node-shell" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7FB1E874156A7C9800CDD2CC /* Debug */,
+				7FB1E875156A7C9800CDD2CC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7FB1E876156A7C9800CDD2CC /* Build configuration list for PBXNativeTarget "node-shell" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7FB1E877156A7C9800CDD2CC /* Debug */,
+				7FB1E878156A7C9800CDD2CC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7FB1E84F156A7C9800CDD2CC /* Project object */;
+}
