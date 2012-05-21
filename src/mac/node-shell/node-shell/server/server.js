@@ -24,18 +24,20 @@
 /*jslint sloppy: true, vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*global require, process, setInterval */
 
-process.stdout.write('this is stdout\n');
-process.stderr.write('this is stderr\n');
+var count = 0;
+
+process.stdout.write('this is stdout\n\n');
+process.stderr.write('this is stderr\n\n');
 
 process.stdin.resume();
 process.stdin.setEncoding('utf8');
 
 process.stdin.on('data', function (chunk) {
-    process.stdout.write('data: ' + chunk);
+    process.stderr.write('node got some data: ' + chunk);
 });
 
 process.stdin.on('end', function () {
-    process.stdout.write('end');
+    process.stdout.write('end\n\n');
     process.exit(0);
 });
 
@@ -51,6 +53,11 @@ setInterval(function () {
     if (!process.stdout.writable) {
         process.exit(0);
     } else {
-        process.stdout.write('still running');
+        if (count % 2 === 0) {
+            process.stdout.write('pi');
+        } else {
+            process.stdout.write('ng|asdf\n\n');
+        }
+        count++;
     }
 }, 1000);

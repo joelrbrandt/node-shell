@@ -10,10 +10,17 @@
 
 @interface NodeWrapper : NSObject {
     NSTask *task;
+    NSMutableString *commandBuffer;
 }
 
 -(void) start;
 -(void) stop;
--(void) getData: (NSNotification *)aNotification;
+
+-(void) receiveData: (NSNotification *)aNotification;
+-(void) parseCommandBuffer;
+-(void) processCommand: (NSString *)command;
+
+-(void) sendCommand: (NSString *)command, ... NS_REQUIRES_NIL_TERMINATION;
+-(void) sendData: (NSString *)dataString;
 
 @end

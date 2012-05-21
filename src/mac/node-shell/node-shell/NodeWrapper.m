@@ -10,10 +10,17 @@
 
 @implementation NodeWrapper
 
-- (void)dealloc
-{
+-(id) init {
+    if (self = [super init]) {
+        commandBuffer = [[NSMutableString alloc] init];
+    }
+    return self;
+}
+
+-(void)dealloc {
     [self stop];
     [task release];
+    [commandBuffer release];
     [super dealloc];
 }
 
@@ -26,6 +33,7 @@
     
     task = [[NSTask alloc] init];
     [task setStandardOutput: [NSPipe pipe]];
+    [task setStandardInput: [NSPipe pipe]];
     // [task setStandardError: [task standardOutput]];  // enable to pipe stderr to stdout
     
     
@@ -36,12 +44,12 @@
     
     // Here we register as an observer of the NSFileHandleReadCompletionNotification, which lets
     // us know when there is data waiting for us to grab it in the task's file handle (the pipe
-    // to which we connected stdout and stderr above).  -getData: will be called when there
+    // to which we connected stdout and stderr above).  -receiveData: will be called when there
     // is data waiting.  The reason we need to do this is because if the file handle gets
     // filled up, the task will block waiting to send data and we'll never get anywhere.
     // So we have to keep reading data from the file handle as we go.
     [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(getData:) 
+                                             selector:@selector(receiveData:) 
                                                  name: NSFileHandleReadCompletionNotification 
                                                object: [[task standardOutput] fileHandleForReading]];
     // We tell the file handle to go ahead and read in the background asynchronously, and notify
@@ -66,12 +74,12 @@
     
     while ((data = [[[task standardOutput] fileHandleForReading] availableData]) && [data length])
     {
-        NSLog(@"got some data: %@\n", [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]);
+        NSLog(@"app got some data: %@\n", [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]);
     }
+    [self parseCommandBuffer];
 }
 
--(void) getData: (NSNotification *)aNotification
-{
+-(void) receiveData: (NSNotification *)aNotification {
     NSData *data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
     // If the length of the data is zero, then the task is basically over - there is nothing
     // more to get from the handle so we may as well shut down.
@@ -80,7 +88,14 @@
         // because -[data bytes] is not necessarily a properly terminated string.
         // -initWithData:encoding: on the other hand checks -[data length]
         
-        NSLog(@"got some data: %@\n", [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease]);
+        NSString *dataString = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+        
+        NSLog(@"app got some data: %@\n", dataString);
+        
+        [commandBuffer appendString:dataString];
+        
+        [self parseCommandBuffer];
+        
     } else {
         // We're finished here
         [self stop];
@@ -88,6 +103,61 @@
     
     // we need to schedule the file handle go read more data in the background again.
     [[aNotification object] readInBackgroundAndNotify];  
+}
+
+-(void) parseCommandBuffer {
+    NSRange range = [commandBuffer rangeOfString:@"\n\n"];
+    while (range.location != NSNotFound) {
+        // change range to go from start of buffer to start of new lines
+        range.length = range.location;
+        range.location = 0;
+        
+        // remove the command from buffer, then process it
+        NSString *command = [commandBuffer substringWithRange:range];
+        range.length = range.length + 2; // now the range goes to end of new lines, because we want to remove those too
+        [commandBuffer deleteCharactersInRange:range];
+        [self processCommand:command];
+        
+        // search again
+        range = [commandBuffer rangeOfString:@"\n\n"];
+    }
+}
+
+-(void) processCommand: (NSString *)command {
+    NSArray *args = [command componentsSeparatedByString: @"|"];
+    if ([args count] > 0) {
+        NSString *name = [args objectAtIndex:0];
+        if ([name isEqualToString:@"ping"]) {
+            NSLog(@"got a ping");
+            [self sendCommand:@"pong", @"asdf", @"fdsa", nil];
+        } else {
+            NSLog(@"unknown command: %@", name);
+        }
+        
+    } else {
+        NSLog(@"empty command");
+    }
+}
+
+-(void) sendCommand: (NSString *)command, ... {
+    NSMutableString *fullCommand = [[[NSMutableString alloc] initWithString:command] autorelease];
+    
+    va_list args;
+    va_start(args, command);
+    for (NSString *arg = arg = va_arg(args, NSString*); arg != nil; arg = va_arg(args, NSString*))
+    {
+        [fullCommand appendString:@"|"];
+        [fullCommand appendString:arg];
+    }
+    va_end(args);
+    [fullCommand appendString:@"\n\n"];
+    [self sendData:fullCommand];
+}
+
+-(void) sendData: (NSString *)dataString {
+    const char * utf8DataString = [dataString UTF8String];
+    NSData *data = [[[NSData alloc] initWithBytes:utf8DataString length:strlen(utf8DataString)] autorelease];
+    [[[task standardInput] fileHandleForWriting] writeData:data];
 }
 
 @end
