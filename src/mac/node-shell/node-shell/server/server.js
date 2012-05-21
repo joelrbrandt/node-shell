@@ -25,22 +25,58 @@
 /*global require, process, setInterval */
 
 var count = 0;
+var commandBuffer = "";
 
+// write to stdout and stderror so we can make sure they're going to the right place when debugging
 process.stdout.write('this is stdout\n\n');
 process.stderr.write('this is stderr\n\n');
 
+function processCommand(command) {
+    var args = command.split('|');
+    if (args.length > 0) {
+        if (args[0] === 'pong') {
+            console.warn('got pong response: ' + JSON.stringify(args));
+        } else {
+            console.warn('got an unknown command: ' + command);
+        }
+    }
+}
+
+function parseCommandBuffer() {
+    var command;
+    var i = commandBuffer.indexOf("\n\n");
+    while (i >= 0) {
+        command = commandBuffer.substr(0, i);
+        commandBuffer = commandBuffer.substr(i + 2);
+        processCommand(command);
+        i = commandBuffer.indexOf("\n\n");
+    }
+}
+
+function sendCommand() {
+    var commandString = Array.prototype.join.call(arguments, "|");
+    commandString += "\n\n";
+    console.warn("sending from node: " + commandString);
+    process.stdout.write(commandString);
+}
+
+// re-enable getting events from stdin
 process.stdin.resume();
 process.stdin.setEncoding('utf8');
 
-process.stdin.on('data', function (chunk) {
+// set up event handlers for stdin
+process.stdin.on('data', function receiveData(chunk) {
     process.stderr.write('node got some data: ' + chunk);
+    commandBuffer += chunk;
+    parseCommandBuffer();
 });
 
-process.stdin.on('end', function () {
-    process.stdout.write('end\n\n');
+process.stdin.on('end', function receiveStdInClose() {
+    sendCommand('end\n\n');
     process.exit(0);
 });
 
+// set up a really simple web server
 var http = require('http');
 http.createServer(function (req, res) {
     console.log('got a web request');
@@ -49,15 +85,13 @@ http.createServer(function (req, res) {
 }).listen(1337, '127.0.0.1');
 console.log('Server running at http://127.0.0.1:1337/');
 
+
+// Routinely check if stdout is closed. If it's closed, our parent process exited, so we should too.
 setInterval(function () {
+    count++;
     if (!process.stdout.writable) {
         process.exit(0);
     } else {
-        if (count % 2 === 0) {
-            process.stdout.write('pi');
-        } else {
-            process.stdout.write('ng|asdf\n\n');
-        }
-        count++;
+        sendCommand('ping', 'asdf', count);
     }
 }, 1000);
