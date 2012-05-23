@@ -7,11 +7,17 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <WebKit/WebKit.h>
 
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
     NSWindow *_window;
+    WebView *_theWebView;
 }
 
+- (void)goToURL:(NSString *)url;
+
 @property (assign) IBOutlet NSWindow *window;
+
+@property (weak) IBOutlet WebView *theWebView;
 
 @end

@@ -13,9 +13,17 @@
 
 @synthesize window = _window;
 
+@synthesize theWebView = _theWebView;
+
 - (void)dealloc
 {
     [super dealloc];
+}
+
+- (void)goToURL:(NSString *)url
+{
+    NSURLRequest* myRequest = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
+    [[self.theWebView mainFrame] loadRequest:myRequest];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification

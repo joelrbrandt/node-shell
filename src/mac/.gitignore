@@ -9,3 +9,6 @@ build/
 *.mode1v3
 *.mode2v3
 xcuserdata
+
+# in this part of the repo, don't include node_modules
+node_modules/

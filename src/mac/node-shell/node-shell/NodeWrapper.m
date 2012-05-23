@@ -7,12 +7,14 @@
 //
 
 #import "NodeWrapper.h"
+#import "AppDelegate.h"
 
 @implementation NodeWrapper
 
 -(id) init {
     if (self = [super init]) {
         commandBuffer = [[NSMutableString alloc] init];
+        commandCount = 0;
     }
     return self;
 }
@@ -116,7 +118,9 @@
         NSString *command = [commandBuffer substringWithRange:range];
         range.length = range.length + 2; // now the range goes to end of new lines, because we want to remove those too
         [commandBuffer deleteCharactersInRange:range];
-        [self processCommand:command];
+        if ([command length] > 0) { // we start *and* end all commands with \n\n, so half the time we'll get an empty "command"
+            [self processCommand:command];
+        }
         
         // search again
         range = [commandBuffer rangeOfString:@"\n\n"];
@@ -125,11 +129,16 @@
 
 -(void) processCommand: (NSString *)command {
     NSArray *args = [command componentsSeparatedByString: @"|"];
-    if ([args count] > 0) {
-        NSString *name = [args objectAtIndex:0];
+    if ([args count] > 1) {
+        NSString *commandId = [args objectAtIndex:0];
+        NSString *name = [args objectAtIndex:1];
         if ([name isEqualToString:@"ping"]) {
             NSLog(@"got a ping");
-            [self sendCommand:@"pong", @"asdf", @"fdsa", nil];
+            [self sendCommand:@"pong", commandId, nil];
+        } else if ([name isEqualToString:@"redirect"] && [args count] >= 3) {
+            NSString *urlBase = @"http://localhost:";
+            NSString *url = [urlBase stringByAppendingString:[args objectAtIndex:2]];
+            [[NSApp delegate] goToURL:url];
         } else {
             NSLog(@"unknown command: %@", name);
         }
@@ -140,11 +149,11 @@
 }
 
 -(void) sendCommand: (NSString *)command, ... {
-    NSMutableString *fullCommand = [[[NSMutableString alloc] initWithString:command] autorelease];
-    
+    NSMutableString *fullCommand = [[[NSMutableString alloc] initWithString:@"\n\n"] autorelease];
+    [fullCommand appendFormat:@"%d", commandCount++];
     va_list args;
     va_start(args, command);
-    for (NSString *arg = arg = va_arg(args, NSString*); arg != nil; arg = va_arg(args, NSString*))
+    for (NSString *arg = command; arg != nil; arg = va_arg(args, NSString*))
     {
         [fullCommand appendString:@"|"];
         [fullCommand appendString:arg];

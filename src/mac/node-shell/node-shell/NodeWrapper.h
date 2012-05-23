@@ -11,6 +11,7 @@
 @interface NodeWrapper : NSObject {
     NSTask *task;
     NSMutableString *commandBuffer;
+    unsigned int commandCount;
 }
 
 -(void) start;
