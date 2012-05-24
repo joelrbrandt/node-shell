@@ -40,7 +40,11 @@ function processCommand(command) {
         } else if (commandName === 'invokeCallback') {
             var id = args[2];
             if (pendingCallbacks[id]) {
-                pendingCallbacks[id].apply(global, args.slice(3));
+				var callbackArgs = [], i;
+				for (i = 3; i < args.length; i++) {
+					callbackArgs[i - 3] = JSON.parse(args[i]);
+				}
+                pendingCallbacks[id].apply(global, callbackArgs);
                 delete pendingCallbacks[id];
             }
         } else {

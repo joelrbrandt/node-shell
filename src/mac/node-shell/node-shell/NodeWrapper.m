@@ -7,7 +7,6 @@
 //
 
 #import "NodeWrapper.h"
-#import "AppDelegate.h"
 
 @implementation NodeWrapper
 
@@ -138,7 +137,16 @@
         } else if ([name isEqualToString:@"redirect"] && [args count] >= 3) {
             NSString *urlBase = @"http://localhost:";
             NSString *url = [urlBase stringByAppendingString:[args objectAtIndex:2]];
-            [[NSApp delegate] goToURL:url];
+            
+            // The following line should be un-commented when running in node-shell, 
+            // and commented out when running in content shell
+            [[NSApp delegate] performSelector: @selector(goToURL:) withObject: url];
+            
+            // The following line should be un-commented when running in content shell,
+            // and commented out when running in node-shell
+            // [NSApp performSelector: @selector(goToURL:) withObject: url];
+            
+			NSLog(@"redirect to url: %@", url);
         } else if ([name isEqualToString:@"showOpenDialog"] && [args count] >= 4) {
             bool allowMultipleSelection = [[args objectAtIndex:2] isEqualToString: @"true"];
             bool chooseDirectory = [[args objectAtIndex:3] isEqualToString: @"true"];
