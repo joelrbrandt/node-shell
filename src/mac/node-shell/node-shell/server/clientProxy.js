@@ -55,7 +55,16 @@ stupid.reverse = function (s) {
 
 // end test namespace
 
+// app namespace
+
+var app = {};
+
+app.showOpenDialog = function(allowMultipleSelection, chooseDirectory, title, initialPath, fileTypes, callback) {
+    appProxy.sendAsyncCommand(callback, "showOpenDialog", allowMultipleSelection, chooseDirectory, title, initialPath, fileTypes);
+}
+
 var namespaces = {
+    app : app,
     fs : fs,
     stupid : stupid
 };
@@ -64,6 +73,7 @@ function createCallback(id, ws) {
     return function () {
         var args = Array.prototype.slice.call(arguments);
         if (websocket !== null) {
+            console.warn("Sending callback for " + id + " with args " + args);
             websocket.send(JSON.stringify({id: id, result: args}));
         }
     };

@@ -139,6 +139,16 @@
             NSString *urlBase = @"http://localhost:";
             NSString *url = [urlBase stringByAppendingString:[args objectAtIndex:2]];
             [[NSApp delegate] goToURL:url];
+        } else if ([name isEqualToString:@"showOpenDialog"] && [args count] >= 4) {
+            bool allowMultipleSelection = [[args objectAtIndex:2] isEqualToString: @"true"];
+            bool chooseDirectory = [[args objectAtIndex:3] isEqualToString: @"true"];
+            NSString *title = [args objectAtIndex:4];
+            NSString *initialPath = [args objectAtIndex:5];
+            // TODO: file types
+            NSString *result = [self showOpenDialog: allowMultipleSelection chooseDirectory: chooseDirectory andTitle: title withInitialPath: initialPath andFileTypes: @""];
+            
+            // Need to send 0 as a string in order for the var arg code in sendCommand to work.
+            [self sendCommand:@"invokeCallback", commandId, @"0", result, nil];
         } else {
             NSLog(@"unknown command: %@", name);
         }
@@ -169,4 +179,95 @@
     [[[task standardInput] fileHandleForWriting] writeData:data];
 }
 
+-(NSString*) showOpenDialog: (BOOL) allowMultipleSelection chooseDirectory: (BOOL) chooseDirectory andTitle: (NSString*) title withInitialPath: (NSString*) initialPath andFileTypes: (NSString*)fileTypesStr
+{      
+    NSString* result = @"";  
+    NSArray* allowedFileTypes = nil;
+    
+    /*
+    if (fileTypesStr != "")
+    {
+        // fileTypesStr is a Space-delimited string
+        allowedFileTypes = 
+        [[NSString stringWithUTF8String:fileTypesStr] 
+         componentsSeparatedByString:@" "];
+    }
+    */
+    
+    // Initialize the dialog
+    NSOpenPanel* openPanel = [NSOpenPanel openPanel];
+    [openPanel setCanChooseFiles:!chooseDirectory];
+    [openPanel setCanChooseDirectories:chooseDirectory];
+    [openPanel setCanCreateDirectories:chooseDirectory];
+    [openPanel setAllowsMultipleSelection:allowMultipleSelection];
+    [openPanel setTitle: title];
+    
+    if (![initialPath isEqualToString:@""])
+        [openPanel setDirectoryURL:[NSURL URLWithString: initialPath]];
+    
+    [openPanel setAllowedFileTypes:allowedFileTypes];
+    
+    if ([openPanel runModal] == NSOKButton)
+    {
+        result = [self NSArrayToJSONString:[openPanel filenames]];
+    }
+    
+    return result;
+}
+
+
+// Escapes characters that have special meaning in JSON
+/*
+-(void) EscapeJSONString(const std::string& str, std::string& result) {
+    result = "";
+    
+    for(size_t pos = 0; pos != str.size(); ++pos) {
+            switch(str[pos]) {
+                case '\a':  result.append("\\a");   break;
+                case '\b':  result.append("\\b");   break;
+                case '\f':  result.append("\\f");   break;
+                case '\n':  result.append("\\n");   break;
+                case '\r':  result.append("\\r");   break;
+                case '\t':  result.append("\\t");   break;
+                case '\v':  result.append("\\v");   break;
+                // Note: single quotes are OK for JSON
+                case '\"':  result.append("\\\"");  break; // double quote
+                case '\\':  result.append("\\\\");  break; // backslash
+                    
+                    
+            default:   result.append( 1, str[pos]); break;
+                    
+        }
+    }
+}
+*/
+
+
+-(NSString*) NSArrayToJSONString: (NSArray*) array
+{        
+    int numItems = [array count];
+    NSString* escapedStr = @"";
+    NSMutableString* result = [[[NSMutableString alloc] initWithString:@"["] autorelease];
+    NSString* item;
+    
+    for (int i = 0; i < numItems; i++)
+    {
+        [result appendString:@"\""];
+        
+        item = [array objectAtIndex:i];
+        escapedStr = item; //EscapeJSONString(item, escapedStr);
+        
+        [result appendString:escapedStr];
+        [result appendString:@"\""];
+        
+        
+        if (i < numItems - 1)
+            [result appendString:@", "];
+    }
+    [result appendString:@"]"];
+    
+    return result;
+}
+
 @end
+

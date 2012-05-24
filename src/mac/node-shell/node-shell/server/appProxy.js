@@ -26,6 +26,7 @@
 
 var count = 0;
 var commandBuffer = "";
+var pendingCallbacks = {};
 var clientProxy = null;
 
 function processCommand(command) {
@@ -36,6 +37,12 @@ function processCommand(command) {
         commandName = args[1];
         if (commandName === 'pong') {
             console.warn('got pong response: ' + JSON.stringify(args));
+        } else if (commandName === 'invokeCallback') {
+            var id = args[2];
+            if (pendingCallbacks[id]) {
+                pendingCallbacks[id].apply(global, args.slice(3));
+                delete pendingCallbacks[id];
+            }
         } else {
             console.warn('got an unknown command: ' + command);
         }
@@ -61,7 +68,12 @@ function sendCommand() {
     console.warn("sending from node: " + commandString);
     process.stdout.write(commandString);
     count++;
+}
 
+function sendAsyncCommand(callback) {
+    pendingCallbacks[count] = callback;
+    var args = Array.prototype.slice.call(arguments, 1);
+    sendCommand.apply(global, args);
 }
 
 function receiveData(chunk) {
@@ -72,4 +84,5 @@ function receiveData(chunk) {
 
 exports.receiveData = receiveData;
 exports.sendCommand = sendCommand;
+exports.sendAsyncCommand = sendAsyncCommand;
 exports.setClientProxy = function (cp) { clientProxy = cp; };

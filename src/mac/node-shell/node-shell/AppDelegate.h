@@ -18,6 +18,6 @@
 
 @property (assign) IBOutlet NSWindow *window;
 
-@property (weak) IBOutlet WebView *theWebView;
+@property  IBOutlet WebView *theWebView;
 
 @end

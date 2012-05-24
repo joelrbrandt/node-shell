@@ -24,4 +24,6 @@
 -(void) sendCommand: (NSString *)command, ... NS_REQUIRES_NIL_TERMINATION;
 -(void) sendData: (NSString *)dataString;
 
+-(NSString*) showOpenDialog: (BOOL) allowMultipleSelection chooseDirectory: (BOOL) chooseDirectory andTitle: (NSString*) title withInitialPath: (NSString*) initialPath andFileTypes: (NSString*) fileTypesStr;
+-(NSString*) NSArrayToJSONString: (NSArray*) array;
 @end
