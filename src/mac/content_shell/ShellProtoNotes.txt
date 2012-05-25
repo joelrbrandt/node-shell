@@ -1,0 +1,97 @@
+Setup
+-----
+Get/Build Chromium (Content project is all you need)
+Set target SDK to 10.6
+
+
+Changes to build brackets shell
+-------------------------------
+- copy brackets_shell_mac.mm from node-shell/content_shell to chromium/src/content/shell
+- copy node directory from node-shell into chromium/src/content/shell
+- copy NodeWrapper.m/.h from node-shell into chromium/src/content/shell
+  - make sure the correct line is un-commented in NodeWrapper.m processCommand
+- copy server directory from node-shell into chromium/src/content/shell
+
+- Update content_shell.gypi with the following changes: (or use content_shell.gypi from node-shell)
+  - Replace "shell_mac.mm" with "brackets_shell_mac.mm"
+  - Add the following to 'mac_bundle_resources', after 'shell/mac/ap-Info.plist':
+        'shell/server/appProxy.js',    # Brackets
+        'shell/server/clientProxy.js',    # Brackets
+        'shell/server/config.js',    # Brackets
+        'shell/server/server.js',    # Brackets
+
+  - Add the following after the "Make sure there isn't any Objective-C in the shell" build step:
+            {  # Brackets begin
+              # Copy node 
+              'postbuild_name': 'Copy node',
+              'action': [
+                'cp',
+                'shell/node/node',
+                '$BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/node-executable',
+              ],
+            },
+            {
+              # Copy node modules
+              'postbuild_name': 'Copy node modules',
+              'action': [
+                'cp',
+                '-r',
+                'shell/node/node_modules',
+                '$BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/',
+              ],
+            }  # Brackets end
+
+  - Add 'shell/NodeWrapper.m' to content_shell.gypi (under brackets_shell_mac.mm)
+
+- Add to shell_browser_main_parts_mac.mm (or use from node-shell)
+#include "content/shell/NodeWrapper.h
+
+in PreMainMessageLoopStart:
+	NodeWrapper *node = [[NodeWrapper alloc] init];
+	[node start];
+
+- Add to shell_application_mac.h (before @end) (or use from node-shell)
+- (void)goToURL:(NSString*)url;
+
+- Add to shell_application_mac.mm (before @end) (or use from node-shell)
+
+- (void)goToURL:(NSString *)url {
+	NSWindow* aWindow = [self mainWindow];
+	
+	// Early in startup, mainWindow is nil. In that case, grab the first
+	// window from the 'windows' array
+	NSArray* someWindows = [self windows];
+	
+	if (!aWindow && someWindows) {
+		aWindow = [someWindows objectAtIndex:0];
+	}
+	
+	if (aWindow) {
+		[[aWindow delegate] performSelector: @selector(goToURL:) withObject:url];
+	} 
+}
+
+
+
+
+Building
+--------
+
+All commands to be run from ~/chromium/src
+
+From XCode
+----------
+# update projects
+gclient runhooks
+
+# open project in xcode and build
+
+From Command Line
+-----------------
+
+# update projects
+GYP_GENERATORS=ninja GYP_DEFINES=mac_sdk=10.6 ./build/gyp_chromium
+
+# build
+ninja -C out/Debug content_shell
+(use out/Release for release build)
