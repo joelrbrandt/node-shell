@@ -3,6 +3,11 @@ Setup
 Get/Build Chromium (Content project is all you need)
 Set target SDK to 10.6
 
+You can make that all happen by reading:
+https://github.com/joelrbrandt/node-shell/wiki/setting-up-chromium-build-env-on-mac
+
+If you're on windows, good luck. Document your experience.
+
 
 Changes to build brackets shell
 -------------------------------
