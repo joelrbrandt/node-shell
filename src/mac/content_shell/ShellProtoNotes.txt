@@ -14,7 +14,7 @@ Changes to build brackets shell
 
 - Update content_shell.gypi with the following changes: (or use content_shell.gypi from node-shell)
   - Replace "shell_mac.mm" with "brackets_shell_mac.mm"
-  - Add the following to 'mac_bundle_resources', after 'shell/mac/ap-Info.plist':
+  - Add the following to 'mac_bundle_resources', after 'shell/mac/app-Info.plist':
         'shell/server/appProxy.js',    # Brackets
         'shell/server/clientProxy.js',    # Brackets
         'shell/server/config.js',    # Brackets
@@ -39,7 +39,7 @@ Changes to build brackets shell
                 'shell/node/node_modules',
                 '$BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/',
               ],
-            }  # Brackets end
+            }, # Brackets end
 
   - Add 'shell/NodeWrapper.m' to content_shell.gypi (under brackets_shell_mac.mm)
 
@@ -82,7 +82,7 @@ All commands to be run from ~/chromium/src
 From XCode
 ----------
 # update projects
-gclient runhooks
+GYP_GENERATORS=xcode GYP_DEFINES=mac_sdk=10.6 ./build/gyp_chromium
 
 # open project in xcode and build
 
