@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'node-shell-lib' target in the 'node-shell-lib' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
