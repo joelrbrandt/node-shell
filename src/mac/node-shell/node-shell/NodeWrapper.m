@@ -8,13 +8,21 @@
 
 #import "NodeWrapper.h"
 
+NodeWrapper* gNodeWrapper;
+
 @implementation NodeWrapper
+
++(NodeWrapper*) getNodeWrapper {
+    return gNodeWrapper;
+}
 
 -(id) init {
     if (self = [super init]) {
         commandBuffer = [[NSMutableString alloc] init];
         commandCount = 0;
+        menus = [[ShellMenus alloc] init];
     }
+    gNodeWrapper = self;
     return self;
 }
 
@@ -22,6 +30,7 @@
     [self stop];
     [task release];
     [commandBuffer release];
+    [menus release];
     [super dealloc];
 }
 
@@ -157,6 +166,10 @@
             
             // Need to send 0 as a string in order for the var arg code in sendCommand to work.
             [self sendCommand:@"invokeCallback", commandId, @"0", result, nil];
+        } else if ([name isEqualToString:@"addMenu"] && [args count] >= 6) {
+            [menus addMenu:[args objectAtIndex:2] name:[args objectAtIndex:3] position:[args objectAtIndex:4] relativeID:[args objectAtIndex:5]];
+        } else if ([name isEqualToString:@"addMenuItem"] && [args count] >= 8) {
+            [menus addMenuItem:[args objectAtIndex:2] id:[args objectAtIndex:3] name: [args objectAtIndex: 4] command: [args objectAtIndex: 5] keyBindings: [args objectAtIndex: 6] position:[args objectAtIndex: 7] relativeID:[args objectAtIndex: 8]];
         } else {
             NSLog(@"unknown command: %@", name);
         }

@@ -61,7 +61,15 @@ var app = {};
 
 app.showOpenDialog = function(allowMultipleSelection, chooseDirectory, title, initialPath, fileTypes, callback) {
     appProxy.sendAsyncCommand(callback, "showOpenDialog", allowMultipleSelection, chooseDirectory, title, initialPath, fileTypes);
-}
+};
+
+app.addMenu = function(id, name, position, relativeID) {
+    appProxy.sendCommand("addMenu", id, name, position, relativeID);
+};
+
+app.addMenuItem = function(parentMenuId, id, name, command, keyBindings, position, relativeID) {
+    appProxy.sendCommand("addMenuItem", parentMenuId, id, name, command, keyBindings, position, relativeID);
+};
 
 var namespaces = {
     app : app,
@@ -69,20 +77,26 @@ var namespaces = {
     stupid : stupid
 };
 
-function createCallback(id, ws) {
+function sendCommand(cmd) {
+    if (websocket) {
+        websocket.send(JSON.stringify(cmd));
+    }
+}
+
+function createCallback(id) {
     return function () {
         var args = Array.prototype.slice.call(arguments);
         if (websocket !== null) {
-            console.warn("Sending callback for " + id + " with args " + args);
+//            console.warn("Sending callback for " + id + " with args " + args);
             websocket.send(JSON.stringify({id: id, result: args}));
         }
     };
 }
 
-function doCommand(id, namespace, command, args, isAsync, ws) {
+function doCommand(id, namespace, command, args, isAsync) {
     try {
         var f = namespaces[namespace][command];
-        var callback = createCallback(id, ws);
+        var callback = createCallback(id);
         if (isAsync) {
             args.push(callback);
             f.apply(global, args);
@@ -127,5 +141,6 @@ function setWebsocket(ws) {
     });
 }
 
+exports.sendCommand = sendCommand;
 exports.setWebsocket = setWebsocket;
 exports.setAppProxy = function (ap) { appProxy = ap; };

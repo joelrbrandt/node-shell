@@ -7,12 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ShellMenus.h"
 
 @interface NodeWrapper : NSObject {
     NSTask *task;
     NSMutableString *commandBuffer;
     unsigned int commandCount;
+    ShellMenus *menus;
 }
+
++(NodeWrapper*) getNodeWrapper;
 
 -(void) start;
 -(void) stop;

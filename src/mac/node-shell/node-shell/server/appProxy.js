@@ -47,6 +47,12 @@ function processCommand(command) {
                 pendingCallbacks[id].apply(global, callbackArgs);
                 delete pendingCallbacks[id];
             }
+        } else if (commandName === 'runCommand') {
+            var commandId = args[2];
+            clientProxy.sendCommand({
+                id: "runCommand",
+                commandId: commandId
+            });
         } else {
             console.warn('got an unknown command: ' + command);
         }

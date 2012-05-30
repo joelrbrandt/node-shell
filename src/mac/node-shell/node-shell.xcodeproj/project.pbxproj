@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		21304BB715703E1200E7BBEB /* ShellMenus.m in Sources */ = {isa = PBXBuildFile; fileRef = 21304BB615703E1200E7BBEB /* ShellMenus.m */; };
 		7F562573156D9FC400A2F744 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F562572156D9FC400A2F744 /* WebKit.framework */; };
 		7F718787156D4A3500517C99 /* appProxy.js in Resources */ = {isa = PBXBuildFile; fileRef = 7F718780156D4A1300517C99 /* appProxy.js */; };
 		7F718788156D4A3500517C99 /* clientProxy.js in Resources */ = {isa = PBXBuildFile; fileRef = 7F718781156D4A1300517C99 /* clientProxy.js */; };
@@ -22,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		21304BB515703E1100E7BBEB /* ShellMenus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShellMenus.h; sourceTree = "<group>"; };
+		21304BB615703E1200E7BBEB /* ShellMenus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShellMenus.m; sourceTree = "<group>"; };
 		7F562572156D9FC400A2F744 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		7F718780156D4A1300517C99 /* appProxy.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = appProxy.js; path = server/appProxy.js; sourceTree = "<group>"; };
 		7F718781156D4A1300517C99 /* clientProxy.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = clientProxy.js; path = server/clientProxy.js; sourceTree = "<group>"; };
@@ -101,6 +104,8 @@
 				7FB1E86F156A7C9800CDD2CC /* AppDelegate.m */,
 				7FB1E87D156A80C700CDD2CC /* NodeWrapper.h */,
 				7FB1E87E156A80C700CDD2CC /* NodeWrapper.m */,
+				21304BB515703E1100E7BBEB /* ShellMenus.h */,
+				21304BB615703E1200E7BBEB /* ShellMenus.m */,
 				7FB1E871156A7C9800CDD2CC /* MainMenu.xib */,
 				7FB1E863156A7C9800CDD2CC /* Supporting Files */,
 			);
@@ -211,6 +216,7 @@
 				7FB1E869156A7C9800CDD2CC /* main.m in Sources */,
 				7FB1E870156A7C9800CDD2CC /* AppDelegate.m in Sources */,
 				7FB1E87F156A80C700CDD2CC /* NodeWrapper.m in Sources */,
+				21304BB715703E1200E7BBEB /* ShellMenus.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
