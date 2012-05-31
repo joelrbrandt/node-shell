@@ -10,7 +10,10 @@
 		7F8AD1901576B9450056914F /* config.js in Resources */ = {isa = PBXBuildFile; fileRef = 7F8AD18B1576B90D0056914F /* config.js */; };
 		7F8AD1911576B9490056914F /* clientProxy.js in Resources */ = {isa = PBXBuildFile; fileRef = 7F8AD18A1576B90D0056914F /* clientProxy.js */; };
 		7F8AD1921576B94D0056914F /* server.js in Resources */ = {isa = PBXBuildFile; fileRef = 7F8AD18D1576B90D0056914F /* server.js */; };
-		7FC7108F1576B348009262BF /* cocoanode.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7FC710491576A10A009262BF /* cocoanode.mm */; };
+		7F8AD1C9157700530056914F /* CocoaWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F8AD1C7157700530056914F /* CocoaWrapper.h */; };
+		7F8AD1CA157700530056914F /* CocoaWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7F8AD1C8157700530056914F /* CocoaWrapper.mm */; };
+		7F8AD1CC1577028F0056914F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F8AD1CB1577028F0056914F /* WebKit.framework */; };
+		7FC7108F1576B348009262BF /* cocoanode.cc in Sources */ = {isa = PBXBuildFile; fileRef = 7FC710491576A10A009262BF /* cocoanode.cc */; };
 		7FC710901576B4D7009262BF /* cocoanode.node in Resources */ = {isa = PBXBuildFile; fileRef = 7FC7108B1576B334009262BF /* cocoanode.node */; };
 		7FED295A1574F34F0027444F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FED29591574F34F0027444F /* Cocoa.framework */; };
 		7FED29641574F34F0027444F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7FED29621574F34F0027444F /* InfoPlist.strings */; };
@@ -38,7 +41,11 @@
 		7F8AD18B1576B90D0056914F /* config.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = config.js; sourceTree = "<group>"; };
 		7F8AD18C1576B90D0056914F /* package.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = package.json; sourceTree = "<group>"; };
 		7F8AD18D1576B90D0056914F /* server.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = server.js; sourceTree = "<group>"; };
-		7FC710491576A10A009262BF /* cocoanode.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = cocoanode.mm; sourceTree = "<group>"; };
+		7F8AD1C7157700530056914F /* CocoaWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocoaWrapper.h; sourceTree = "<group>"; };
+		7F8AD1C8157700530056914F /* CocoaWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CocoaWrapper.mm; sourceTree = "<group>"; };
+		7F8AD1CB1577028F0056914F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		7F8AD1D215772D2A0056914F /* CocoaWrapper_External.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CocoaWrapper_External.h; sourceTree = "<group>"; };
+		7FC710491576A10A009262BF /* cocoanode.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cocoanode.cc; sourceTree = "<group>"; };
 		7FC710541576AA95009262BF /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		7FC7108B1576B334009262BF /* cocoanode.node */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = cocoanode.node; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FED29551574F34F0027444F /* node-shell-lib.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "node-shell-lib.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F8AD1CC1577028F0056914F /* WebKit.framework in Frameworks */,
 				7FED295A1574F34F0027444F /* Cocoa.framework in Frameworks */,
 				7FED29771574F5090027444F /* libnode.dylib in Frameworks */,
 			);
@@ -117,6 +125,7 @@
 		7FED294A1574F34F0027444F = {
 			isa = PBXGroup;
 			children = (
+				7F8AD1CB1577028F0056914F /* WebKit.framework */,
 				7FED295F1574F34F0027444F /* node-shell-lib */,
 				7FED29581574F34F0027444F /* Frameworks */,
 				7FED29561574F34F0027444F /* Products */,
@@ -163,7 +172,10 @@
 				7FED29601574F34F0027444F /* Supporting Files */,
 				7FED299D1574F6D50027444F /* NodeWrapper.h */,
 				7FED299E1574F6D50027444F /* NodeWrapper.mm */,
-				7FC710491576A10A009262BF /* cocoanode.mm */,
+				7FC710491576A10A009262BF /* cocoanode.cc */,
+				7F8AD1C7157700530056914F /* CocoaWrapper.h */,
+				7F8AD1C8157700530056914F /* CocoaWrapper.mm */,
+				7F8AD1D215772D2A0056914F /* CocoaWrapper_External.h */,
 			);
 			path = "node-shell-lib";
 			sourceTree = "<group>";
@@ -243,6 +255,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F8AD1C9157700530056914F /* CocoaWrapper.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,7 +304,7 @@
 		7FED294C1574F34F0027444F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = "Adobe Systems";
 			};
 			buildConfigurationList = 7FED294F1574F34F0027444F /* Build configuration list for PBXProject "node-shell-lib" */;
@@ -351,7 +364,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7FC7108F1576B348009262BF /* cocoanode.mm in Sources */,
+				7FC7108F1576B348009262BF /* cocoanode.cc in Sources */,
+				7F8AD1CA157700530056914F /* CocoaWrapper.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

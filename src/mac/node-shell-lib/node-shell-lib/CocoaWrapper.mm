@@ -1,35 +1,42 @@
 //
-//  cocoanode.mm
+//  CocoaWrapper.m
 //  node-shell-lib
 //
 //  Created by Joel Brandt on 5/30/12.
 //  Copyright (c) 2012 Adobe Systems. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <Cocoa/Cocoa.h>
+#import "AppDelegate.h"
 
-#include <node.h>
-#include <v8.h>
-
-v8::Handle<v8::Value> getSomeFiles(const v8::Arguments& args);
-void init(v8::Handle<v8::Object> target);
-NSString* NSArrayToJSONString(NSArray* array);
-NSString* showOpenDialog();
+#include "CocoaWrapper_External.h"
+#import "CocoaWrapper.h"
 
 
-v8::Handle<v8::Value> getSomeFiles(const v8::Arguments& args) {
-    v8::HandleScope scope;
-    NSString* result = showOpenDialog();
-    return scope.Close(v8::String::New([result UTF8String]));
+@implementation ResultHolder
+
+- (ResultHolder *)init
+{
+    [super init];
+    _result = [[NSMutableString alloc] initWithString:@""];
+    return self;
 }
 
-void init(v8::Handle<v8::Object> target) {
-    target->Set(v8::String::NewSymbol("getSomeFiles"),
-                v8::FunctionTemplate::New(getSomeFiles)->GetFunction());
+- (void)dealloc
+{
+    [_result release];
+    [super dealloc];
 }
 
-NSString* NSArrayToJSONString(NSArray* array) {        
+- (NSMutableString*)result
+{
+    return _result;
+}
+
+@end
+
+
+@implementation CocoaWrapper
++(NSString*) NSArrayToJSONString:(NSArray*) array {        
     int numItems = [array count];
     NSString* escapedStr = @"";
     NSMutableString* result = [[[NSMutableString alloc] initWithString:@"["] autorelease];
@@ -54,11 +61,10 @@ NSString* NSArrayToJSONString(NSArray* array) {
     return result;
 }
 
-
-NSString* showOpenDialog() {
++(void) showOpenDialogHelper:(ResultHolder *) rh {
     NSString* result = @"";  
     NSArray* allowedFileTypes = nil;
-        
+    
     // Initialize the dialog
     NSOpenPanel* openPanel = [NSOpenPanel openPanel];
     [openPanel setCanChooseFiles:YES];
@@ -72,9 +78,21 @@ NSString* showOpenDialog() {
     if ([openPanel runModal] == NSOKButton)
     {
         NSArray *f = [openPanel filenames];
-        result = NSArrayToJSONString(f);
+        result = [CocoaWrapper NSArrayToJSONString:f];
     }
     
-    return result;
+    [[rh result] setString:result];
 }
-NODE_MODULE(cocoanode, init)
+@end
+
+const char* showOpenDialog() {
+    ResultHolder *rh = [[ResultHolder alloc] init];
+    [CocoaWrapper performSelectorOnMainThread:@selector(showOpenDialogHelper:) withObject:rh waitUntilDone:YES];
+    return [[rh result] UTF8String];
+}
+
+void goToURL(const char* url) {
+    NSString* urlString = [[NSString alloc] initWithUTF8String:url];
+    [[NSApp delegate] performSelectorOnMainThread:@selector(goToURL:) withObject:urlString waitUntilDone:NO];
+    [urlString release];
+}

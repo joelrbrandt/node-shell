@@ -12,23 +12,23 @@
 @implementation AppDelegate
 
 @synthesize window = _window;
+@synthesize theWebView = _theWebView;
 
 - (void)dealloc
 {
     [super dealloc];
 }
 
+- (void) goToURL:(NSString*) url
+{
+    NSURLRequest* myRequest = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
+    [[_theWebView mainFrame] loadRequest:myRequest];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // Insert code here to initialize your application
     [NSThread detachNewThreadSelector:@selector(startNode:) toTarget:[NodeWrapper class] withObject:nil];
-    NSAlert *alert = [[NSAlert alloc] init];
-    [alert addButtonWithTitle:@"OK"];
-    [alert addButtonWithTitle:@"Cancel"];
-    [alert setMessageText:@"Delete the record?"];
-    [alert setInformativeText:@"Deleted records cannot be restored."];
-    [alert setAlertStyle:NSWarningAlertStyle];
-    [alert runModal];
 }
 
 @end

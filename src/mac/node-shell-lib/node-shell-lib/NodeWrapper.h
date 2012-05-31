@@ -10,4 +10,5 @@
 
 @interface NodeWrapper : NSObject
 +(void)startNode:(id)param;
++(void)logSomething:(NSString*)msg;
 @end

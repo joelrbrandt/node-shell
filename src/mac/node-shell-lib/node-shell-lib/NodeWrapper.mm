@@ -6,7 +6,10 @@
 //  Copyright (c) 2012 Adobe Systems. All rights reserved.
 //
 
+#import <Cocoa/Cocoa.h>
+
 #import "NodeWrapper.h"
+
 #include "node.h"
 
 @implementation NodeWrapper
@@ -18,5 +21,8 @@
     char* argv[] = {(char *) "node", (char *) [webUrl UTF8String] };
     
     node::Start(argc, argv);
+}
++(void)logSomething:(NSString *) msg {
+    NSLog(@"Logging something: %@", msg);
 }
 @end

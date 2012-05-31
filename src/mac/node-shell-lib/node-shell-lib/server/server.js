@@ -26,6 +26,7 @@
 
 var config = require('./config');
 var clientProxy = require('./clientProxy');
+var cocoa = require('./cocoanode');
 
 var SETUP_TIMEOUT = 5000; // wait up to 5 seconds for http and ws server to start
 
@@ -74,6 +75,7 @@ function start() {
             console.error("Got error starting servers: " + err);
         } else {
             console.log("serving on port: " + servers.port);
+            cocoa.redirect(servers.port);
         }
     }, SETUP_TIMEOUT);
 }
