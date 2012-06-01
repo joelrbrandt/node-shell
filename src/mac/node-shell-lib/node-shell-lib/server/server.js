@@ -68,6 +68,11 @@ function setupHttpAndWebSocketServers(callback, timeout) {
     });
 }
 
+function loadExtensions() {
+    var name = 'grep'
+    var ext = require('./' + name);
+    clientProxy.addNamespace(name, ext);
+}
 
 function start() {
     setupHttpAndWebSocketServers(function (err, servers) {
@@ -76,13 +81,10 @@ function start() {
         } else {
             console.log("serving on port: " + servers.port);
             cocoa.redirect(servers.port);
+            loadExtensions();
         }
     }, SETUP_TIMEOUT);
 }
 
-// change console.log and console.info to print to stderr (like console.warn and console.error do)
-// other things print to stdout, so we still need to be robust to this in our messaging protocol
-// but this avoids lots of needless messages sent to the app shell
-console.log = console.info = console.warn;
 console.log('starting node in dir: ' + __dirname);
 start();

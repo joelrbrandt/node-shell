@@ -77,7 +77,7 @@ function createCallback(id, ws) {
     return function () {
         var args = Array.prototype.slice.call(arguments);
         if (websocket !== null) {
-            console.warn("Sending callback for " + id + " with args " + args);
+            // console.warn("Sending callback for " + id + " with args " + args);
             websocket.send(JSON.stringify({id: id, result: args}));
         }
     };
@@ -100,7 +100,7 @@ function doCommand(id, namespace, command, args, isAsync, ws) {
 
 function receiveData(message) {
     var m;
-    console.log('received: %s', message);
+    //console.log('received: %s', message);
     try {
         m = JSON.parse(message);
         //console.log('parsed version:');
@@ -119,7 +119,7 @@ function setWebsocket(ws) {
     websocket = ws;
     websocket.on('message', function (message) {
         var m;
-        console.log('received: %s', message);
+        //console.log('received: %s', message);
         try {
             m = JSON.parse(message);
             //console.log('parsed version:');
@@ -131,4 +131,9 @@ function setWebsocket(ws) {
     });
 }
 
+function addNamespace(name, functions) {
+    namespaces[name] = functions;
+}
+
 exports.setWebsocket = setWebsocket;
+exports.addNamespace = addNamespace

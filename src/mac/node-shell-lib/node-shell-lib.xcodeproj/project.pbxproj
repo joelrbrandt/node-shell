@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F4A415F15782A1900F97D44 /* package.json in Resources */ = {isa = PBXBuildFile; fileRef = 7F4A415A15782A1900F97D44 /* package.json */; };
+		7F4A416215782A3500F97D44 /* grep.js in Resources */ = {isa = PBXBuildFile; fileRef = 7F4A415915782A1900F97D44 /* grep.js */; };
 		7F8AD1901576B9450056914F /* config.js in Resources */ = {isa = PBXBuildFile; fileRef = 7F8AD18B1576B90D0056914F /* config.js */; };
 		7F8AD1911576B9490056914F /* clientProxy.js in Resources */ = {isa = PBXBuildFile; fileRef = 7F8AD18A1576B90D0056914F /* clientProxy.js */; };
 		7F8AD1921576B94D0056914F /* server.js in Resources */ = {isa = PBXBuildFile; fileRef = 7F8AD18D1576B90D0056914F /* server.js */; };
@@ -37,6 +39,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7F4A415715782A1900F97D44 /* clientProxy.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = clientProxy.js; sourceTree = "<group>"; };
+		7F4A415815782A1900F97D44 /* config.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = config.js; sourceTree = "<group>"; };
+		7F4A415915782A1900F97D44 /* grep.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = grep.js; sourceTree = "<group>"; };
+		7F4A415A15782A1900F97D44 /* package.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = package.json; sourceTree = "<group>"; };
+		7F4A415B15782A1900F97D44 /* server.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = server.js; sourceTree = "<group>"; };
 		7F8AD18A1576B90D0056914F /* clientProxy.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = clientProxy.js; sourceTree = "<group>"; };
 		7F8AD18B1576B90D0056914F /* config.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = config.js; sourceTree = "<group>"; };
 		7F8AD18C1576B90D0056914F /* package.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = package.json; sourceTree = "<group>"; };
@@ -111,9 +118,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7F4A415615782A1900F97D44 /* server */ = {
+			isa = PBXGroup;
+			children = (
+				7F4A415715782A1900F97D44 /* clientProxy.js */,
+				7F4A415815782A1900F97D44 /* config.js */,
+				7F4A415915782A1900F97D44 /* grep.js */,
+				7F4A415A15782A1900F97D44 /* package.json */,
+				7F4A415B15782A1900F97D44 /* server.js */,
+			);
+			name = server;
+			sourceTree = "<group>";
+		};
 		7F8AD1881576B90D0056914F /* server */ = {
 			isa = PBXGroup;
 			children = (
+				7F4A415615782A1900F97D44 /* server */,
 				7F8AD18A1576B90D0056914F /* clientProxy.js */,
 				7F8AD18B1576B90D0056914F /* config.js */,
 				7F8AD18C1576B90D0056914F /* package.json */,
@@ -330,6 +350,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F4A416215782A3500F97D44 /* grep.js in Resources */,
 				7F8AD1921576B94D0056914F /* server.js in Resources */,
 				7F8AD1911576B9490056914F /* clientProxy.js in Resources */,
 				7F8AD1901576B9450056914F /* config.js in Resources */,
@@ -338,6 +359,7 @@
 				7FED29641574F34F0027444F /* InfoPlist.strings in Resources */,
 				7FED296A1574F34F0027444F /* Credits.rtf in Resources */,
 				7FED29701574F34F0027444F /* MainMenu.xib in Resources */,
+				7F4A415F15782A1900F97D44 /* package.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
