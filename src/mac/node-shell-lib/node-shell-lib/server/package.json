@@ -1,0 +1,11 @@
+{ "name" : "node-shell-server"
+, "description" : "something whitty"
+, "version" : "0.0.1"
+, "author" : "Joel Brandt <joelrbrandt@gmail.com>"
+, "engines" : {"node" : ">=0.6.18"}
+, "main" : "server.js"
+, "dependencies" : 
+  { "connect": ">= 2.3.0"
+  , "ws": ">= 0.4.15"
+  }
+}
