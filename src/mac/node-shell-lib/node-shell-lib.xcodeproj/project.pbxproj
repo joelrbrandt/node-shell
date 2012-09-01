@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F57BC6515F276AE00883186 /* libchrome_zlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F57BC5D15F276AE00883186 /* libchrome_zlib.a */; };
+		7F57BC6615F276AE00883186 /* libhttp_parser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F57BC5E15F276AE00883186 /* libhttp_parser.a */; };
+		7F57BC6715F276AE00883186 /* libnode.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F57BC5F15F276AE00883186 /* libnode.a */; };
+		7F57BC6815F276AE00883186 /* libopenssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F57BC6015F276AE00883186 /* libopenssl.a */; };
+		7F57BC6915F276AE00883186 /* libuv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F57BC6115F276AE00883186 /* libuv.a */; };
+		7F57BC6A15F276AE00883186 /* libv8_base.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F57BC6215F276AE00883186 /* libv8_base.a */; };
+		7F57BC6B15F276AE00883186 /* libv8_nosnapshot.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F57BC6315F276AE00883186 /* libv8_nosnapshot.a */; };
+		7F57BC6C15F276AE00883186 /* libv8_snapshot.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F57BC6415F276AE00883186 /* libv8_snapshot.a */; };
 		7F8AD1901576B9450056914F /* config.js in Resources */ = {isa = PBXBuildFile; fileRef = 7F8AD18B1576B90D0056914F /* config.js */; };
 		7F8AD1911576B9490056914F /* clientProxy.js in Resources */ = {isa = PBXBuildFile; fileRef = 7F8AD18A1576B90D0056914F /* clientProxy.js */; };
 		7F8AD1921576B94D0056914F /* server.js in Resources */ = {isa = PBXBuildFile; fileRef = 7F8AD18D1576B90D0056914F /* server.js */; };
@@ -21,9 +29,7 @@
 		7FED296A1574F34F0027444F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 7FED29681574F34F0027444F /* Credits.rtf */; };
 		7FED296D1574F34F0027444F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FED296C1574F34F0027444F /* AppDelegate.m */; };
 		7FED29701574F34F0027444F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7FED296E1574F34F0027444F /* MainMenu.xib */; };
-		7FED29771574F5090027444F /* libnode.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FED29761574F5090027444F /* libnode.dylib */; };
 		7FED299F1574F6D50027444F /* NodeWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7FED299E1574F6D50027444F /* NodeWrapper.mm */; };
-		7FED29A01574F7B60027444F /* libnode.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 7FED29761574F5090027444F /* libnode.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +43,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7F57BC5D15F276AE00883186 /* libchrome_zlib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libchrome_zlib.a; sourceTree = "<group>"; };
+		7F57BC5E15F276AE00883186 /* libhttp_parser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libhttp_parser.a; sourceTree = "<group>"; };
+		7F57BC5F15F276AE00883186 /* libnode.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libnode.a; sourceTree = "<group>"; };
+		7F57BC6015F276AE00883186 /* libopenssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libopenssl.a; sourceTree = "<group>"; };
+		7F57BC6115F276AE00883186 /* libuv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libuv.a; sourceTree = "<group>"; };
+		7F57BC6215F276AE00883186 /* libv8_base.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libv8_base.a; sourceTree = "<group>"; };
+		7F57BC6315F276AE00883186 /* libv8_nosnapshot.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libv8_nosnapshot.a; sourceTree = "<group>"; };
+		7F57BC6415F276AE00883186 /* libv8_snapshot.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libv8_snapshot.a; sourceTree = "<group>"; };
 		7F8AD18A1576B90D0056914F /* clientProxy.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = clientProxy.js; sourceTree = "<group>"; };
 		7F8AD18B1576B90D0056914F /* config.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = config.js; sourceTree = "<group>"; };
 		7F8AD18C1576B90D0056914F /* package.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = package.json; sourceTree = "<group>"; };
@@ -61,7 +75,6 @@
 		7FED296B1574F34F0027444F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7FED296C1574F34F0027444F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		7FED296F1574F34F0027444F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		7FED29761574F5090027444F /* libnode.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libnode.dylib; sourceTree = "<group>"; };
 		7FED297A1574F55F0027444F /* ares.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ares.h; sourceTree = "<group>"; };
 		7FED297B1574F55F0027444F /* ares_version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ares_version.h; sourceTree = "<group>"; };
 		7FED297D1574F55F0027444F /* ares.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ares.h; sourceTree = "<group>"; };
@@ -104,7 +117,14 @@
 			files = (
 				7F8AD1CC1577028F0056914F /* WebKit.framework in Frameworks */,
 				7FED295A1574F34F0027444F /* Cocoa.framework in Frameworks */,
-				7FED29771574F5090027444F /* libnode.dylib in Frameworks */,
+				7F57BC6515F276AE00883186 /* libchrome_zlib.a in Frameworks */,
+				7F57BC6615F276AE00883186 /* libhttp_parser.a in Frameworks */,
+				7F57BC6715F276AE00883186 /* libnode.a in Frameworks */,
+				7F57BC6815F276AE00883186 /* libopenssl.a in Frameworks */,
+				7F57BC6915F276AE00883186 /* libuv.a in Frameworks */,
+				7F57BC6A15F276AE00883186 /* libv8_base.a in Frameworks */,
+				7F57BC6B15F276AE00883186 /* libv8_nosnapshot.a in Frameworks */,
+				7F57BC6C15F276AE00883186 /* libv8_snapshot.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,7 +203,14 @@
 		7FED29601574F34F0027444F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7FED29761574F5090027444F /* libnode.dylib */,
+				7F57BC5D15F276AE00883186 /* libchrome_zlib.a */,
+				7F57BC5E15F276AE00883186 /* libhttp_parser.a */,
+				7F57BC5F15F276AE00883186 /* libnode.a */,
+				7F57BC6015F276AE00883186 /* libopenssl.a */,
+				7F57BC6115F276AE00883186 /* libuv.a */,
+				7F57BC6215F276AE00883186 /* libv8_base.a */,
+				7F57BC6315F276AE00883186 /* libv8_nosnapshot.a */,
+				7F57BC6415F276AE00883186 /* libv8_snapshot.a */,
 				7FED29611574F34F0027444F /* node-shell-lib-Info.plist */,
 				7FED29621574F34F0027444F /* InfoPlist.strings */,
 				7FED29651574F34F0027444F /* main.m */,
@@ -334,7 +361,6 @@
 				7F8AD1911576B9490056914F /* clientProxy.js in Resources */,
 				7F8AD1901576B9450056914F /* config.js in Resources */,
 				7FC710901576B4D7009262BF /* cocoanode.node in Resources */,
-				7FED29A01574F7B60027444F /* libnode.dylib in Resources */,
 				7FED29641574F34F0027444F /* InfoPlist.strings in Resources */,
 				7FED296A1574F34F0027444F /* Credits.rtf in Resources */,
 				7FED29701574F34F0027444F /* MainMenu.xib in Resources */,
@@ -424,6 +450,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				OTHER_LDFLAGS = "-Wl,-search_paths_first,-undefined,dynamic_lookup";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -434,6 +461,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				OTHER_LDFLAGS = "-Wl,-search_paths_first,-undefined,dynamic_lookup";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -506,7 +534,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "node-shell-lib/node-shell-lib-Prefix.pch";
 				INFOPLIST_FILE = "node-shell-lib/node-shell-lib-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/node-shell-lib\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -517,7 +550,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "node-shell-lib/node-shell-lib-Prefix.pch";
 				INFOPLIST_FILE = "node-shell-lib/node-shell-lib-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/node-shell-lib\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

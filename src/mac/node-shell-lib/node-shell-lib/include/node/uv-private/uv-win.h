@@ -23,6 +23,13 @@
 # define _WIN32_WINNT   0x0502
 #endif
 
+#if !defined(_SSIZE_T_) && !defined(_SSIZE_T_DEFINED)
+typedef intptr_t ssize_t;
+# define _SSIZE_T_
+# define _SSIZE_T_DEFINED
+#endif
+
+#include <process.h>
 #include <stdint.h>
 #include <winsock2.h>
 #include <mswsock.h>
@@ -31,8 +38,13 @@
 #include <sys/stat.h>
 
 #include "tree.h"
+#include "ngx-queue.h"
 
 #define MAX_PIPENAME_LEN 256
+
+#ifndef S_IFLNK
+# define S_IFLNK          0xA000
+#endif
 
 /*
  * Guids and typedefs for winsock extension functions
@@ -102,6 +114,9 @@
                        LPOVERLAPPED lpOverlapped,
                        LPTRANSMIT_FILE_BUFFERS lpTransmitBuffers,
                        DWORD dwFlags);
+
+  typedef PVOID RTL_SRWLOCK;
+  typedef RTL_SRWLOCK SRWLOCK, *PSRWLOCK;
 #endif
 
 typedef int (WSAAPI* LPFN_WSARECV)
@@ -111,8 +126,7 @@ typedef int (WSAAPI* LPFN_WSARECV)
              LPDWORD bytes,
              LPDWORD flags,
              LPWSAOVERLAPPED overlapped,
-             LPWSAOVERLAPPED_COMPLETION_ROUTINE
-             completion_routine);
+             LPWSAOVERLAPPED_COMPLETION_ROUTINE completion_routine);
 
 typedef int (WSAAPI* LPFN_WSARECVFROM)
             (SOCKET socket,
@@ -124,6 +138,26 @@ typedef int (WSAAPI* LPFN_WSARECVFROM)
              LPINT addr_len,
              LPWSAOVERLAPPED overlapped,
              LPWSAOVERLAPPED_COMPLETION_ROUTINE completion_routine);
+
+#ifndef _NTDEF_
+  typedef LONG NTSTATUS;
+  typedef NTSTATUS *PNTSTATUS;
+#endif
+
+typedef struct _AFD_POLL_HANDLE_INFO {
+  HANDLE Handle;
+  ULONG Events;
+  NTSTATUS Status;
+} AFD_POLL_HANDLE_INFO, *PAFD_POLL_HANDLE_INFO;
+
+typedef struct _AFD_POLL_INFO {
+  LARGE_INTEGER Timeout;
+  ULONG NumberOfHandles;
+  ULONG Exclusive;
+  AFD_POLL_HANDLE_INFO Handles[1];
+} AFD_POLL_INFO, *PAFD_POLL_INFO;
+
+#define UV_MSAFD_PROVIDER_COUNT 3
 
 
 /**
@@ -137,21 +171,53 @@ typedef struct uv_buf_t {
 
 typedef int uv_file;
 
+typedef struct _stati64 uv_statbuf_t;
+
+typedef SOCKET uv_os_sock_t;
+
+typedef HANDLE uv_thread_t;
+
+typedef HANDLE uv_sem_t;
+
+typedef CRITICAL_SECTION uv_mutex_t;
+
+typedef union {
+  /* srwlock_ has type SRWLOCK, but not all toolchains define this type in */
+  /* windows.h. */
+  SRWLOCK srwlock_;
+  struct {
+    uv_mutex_t read_mutex_;
+    uv_mutex_t write_mutex_;
+    unsigned int num_readers_;
+  } fallback_;
+} uv_rwlock_t;
+
+#define UV_ONCE_INIT { 0, NULL, NULL }
+
+typedef struct uv_once_s {
+  unsigned char ran;
+  /* The actual event handle must be aligned to sizeof(HANDLE), so in */
+  /* practice it might overlap padding a little. */
+  HANDLE event;
+  HANDLE padding;
+} uv_once_t;
+
 /* Platform-specific definitions for uv_spawn support. */
 typedef unsigned char uv_uid_t;
 typedef unsigned char uv_gid_t;
 
 /* Platform-specific definitions for uv_dlopen support. */
-typedef HMODULE uv_lib_t;
 #define UV_DYNAMIC FAR WINAPI
+typedef struct {
+  HMODULE handle;
+  char* errmsg;
+} uv_lib_t;
 
 RB_HEAD(uv_timer_tree_s, uv_timer_s);
 
 #define UV_LOOP_PRIVATE_FIELDS                                                \
     /* The loop's I/O completion port */                                      \
   HANDLE iocp;                                                                \
-  /* Reference count that keeps the event loop alive */                       \
-  int refs;                                                                   \
   /* The current time according to the event loop. in msecs. */               \
   int64_t time;                                                               \
   /* Tail of a single-linked circular queue of pending reqs. If the queue */  \
@@ -173,19 +239,23 @@ RB_HEAD(uv_timer_tree_s, uv_timer_s);
   uv_prepare_t* next_prepare_handle;                                          \
   uv_check_t* next_check_handle;                                              \
   uv_idle_t* next_idle_handle;                                                \
-  ares_channel ares_chan;                                                     \
-  int ares_active_sockets;                                                    \
-  uv_timer_t ares_polling_timer;
+  /* This handle holds the peer sockets for the fast variant of uv_poll_t */  \
+  SOCKET poll_peer_sockets[UV_MSAFD_PROVIDER_COUNT];                          \
+  /* Counter to keep track of active tcp streams */                           \
+  unsigned int active_tcp_streams;                                            \
+  /* Counter to keep track of active udp streams */                           \
+  unsigned int active_udp_streams;
 
 #define UV_REQ_TYPE_PRIVATE               \
   /* TODO: remove the req suffix */       \
-  UV_ARES_EVENT_REQ,                      \
-  UV_ARES_CLEANUP_REQ,                    \
-  UV_GETADDRINFO_REQ,                     \
+  UV_ACCEPT,                              \
+  UV_FS_EVENT_REQ,                        \
+  UV_POLL_REQ,                            \
   UV_PROCESS_EXIT,                        \
   UV_PROCESS_CLOSE,                       \
+  UV_READ,                                \
   UV_UDP_RECV,                            \
-  UV_FS_EVENT_REQ
+  UV_WAKEUP,
 
 #define UV_REQ_PRIVATE_FIELDS             \
   union {                                 \
@@ -243,6 +313,7 @@ RB_HEAD(uv_timer_tree_s, uv_timer_s);
 
 #define UV_STREAM_PRIVATE_FIELDS          \
   unsigned int reqs_pending;              \
+  int activecnt;                          \
   uv_read_t read_req;                     \
   union {                                 \
     struct { uv_stream_connection_fields };  \
@@ -270,6 +341,7 @@ RB_HEAD(uv_timer_tree_s, uv_timer_s);
 #define UV_UDP_PRIVATE_FIELDS             \
   SOCKET socket;                          \
   unsigned int reqs_pending;              \
+  int activecnt;                          \
   uv_req_t recv_req;                      \
   uv_buf_t recv_buffer;                   \
   struct sockaddr_storage recv_from;      \
@@ -289,7 +361,11 @@ RB_HEAD(uv_timer_tree_s, uv_timer_s);
   uv_write_t ipc_header_write_req;        \
   int ipc_pid;                            \
   uint64_t remaining_ipc_rawdata_bytes;   \
-  WSAPROTOCOL_INFOW* pending_socket_info; \
+  unsigned char reserved[sizeof(void*)];  \
+  struct {                                \
+    WSAPROTOCOL_INFOW* socket_info;       \
+    int tcp_connection;                   \
+  } pending_ipc_info;                     \
   uv_write_t* non_overlapped_writes_tail;
 
 #define UV_PIPE_PRIVATE_FIELDS            \
@@ -327,6 +403,21 @@ RB_HEAD(uv_timer_tree_s, uv_timer_s);
   COORD saved_position;                   \
   WORD saved_attributes;
 
+#define UV_POLL_PRIVATE_FIELDS            \
+  SOCKET socket;                          \
+  /* Used in fast mode */                 \
+  SOCKET peer_socket;                     \
+  AFD_POLL_INFO afd_poll_info_1;          \
+  AFD_POLL_INFO afd_poll_info_2;          \
+  /* Used in fast and slow mode. */       \
+  uv_req_t poll_req_1;                    \
+  uv_req_t poll_req_2;                    \
+  unsigned char submitted_events_1;       \
+  unsigned char submitted_events_2;       \
+  unsigned char mask_events_1;            \
+  unsigned char mask_events_2;            \
+  unsigned char events;
+
 #define UV_TIMER_PRIVATE_FIELDS           \
   RB_ENTRY(uv_timer_s) tree_entry;        \
   int64_t due;                            \
@@ -358,15 +449,7 @@ RB_HEAD(uv_timer_tree_s, uv_timer_s);
   uv_handle_t* endgame_next;              \
   unsigned int flags;
 
-#define UV_ARES_TASK_PRIVATE_FIELDS       \
-  struct uv_req_s ares_req;               \
-  SOCKET sock;                            \
-  HANDLE h_wait;                          \
-  WSAEVENT h_event;                       \
-  HANDLE h_close_event;
-
 #define UV_GETADDRINFO_PRIVATE_FIELDS     \
-  struct uv_req_s getadddrinfo_req;       \
   uv_getaddrinfo_cb getaddrinfo_cb;       \
   void* alloc;                            \
   wchar_t* node;                          \
@@ -382,7 +465,7 @@ RB_HEAD(uv_timer_tree_s, uv_timer_s);
   struct uv_process_close_s {             \
     UV_REQ_FIELDS                         \
   } close_req;                            \
-  HANDLE child_stdio[3];                  \
+  BYTE* child_stdio_buffer;               \
   int exit_signal;                        \
   DWORD spawn_errno;                      \
   HANDLE wait_handle;                     \
@@ -390,20 +473,27 @@ RB_HEAD(uv_timer_tree_s, uv_timer_s);
   HANDLE close_handle;
 
 #define UV_FS_PRIVATE_FIELDS              \
-  wchar_t* pathw;                         \
   int flags;                              \
   DWORD sys_errno_;                       \
-  struct _stati64 stat;                   \
-  void* arg0;                             \
+  union {                                 \
+    /* TODO: remove me in 0.9. */         \
+    WCHAR* pathw;                         \
+    int fd;                               \
+  };                                      \
   union {                                 \
     struct {                              \
-      void* arg1;                         \
-      void* arg2;                         \
-      void* arg3;                         \
+      int mode;                           \
+      WCHAR* new_pathw;                   \
+      int file_flags;                     \
+      int fd_out;                         \
+      void* buf;                          \
+      size_t length;                      \
+      int64_t offset;                     \
     };                                    \
+    struct _stati64 stat;                 \
     struct {                              \
-      ssize_t arg4;                       \
-      ssize_t arg5;                       \
+      double atime;                       \
+      double mtime;                       \
     };                                    \
   };
 
