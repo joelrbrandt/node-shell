@@ -377,7 +377,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cp -r ../../../node/node_modules $BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/";
+			shellScript = "cp -r ../../../node/node_modules $BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/\nln -sf /Users/jbrandt/development/brackets-app/brackets $BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/brackets";
 		};
 /* End PBXShellScriptBuildPhase section */
 

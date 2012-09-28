@@ -41,7 +41,7 @@ Handle<Value> redirect(const Arguments& args) {
     int port = num->Uint32Value();
     
     char url[256];
-    sprintf(url, "http://localhost:%d/", port);
+    sprintf(url, "http://localhost:%d/src", port);
     goToURL(url);
     
     return scope.Close(Undefined());

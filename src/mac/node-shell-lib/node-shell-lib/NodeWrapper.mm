@@ -19,13 +19,13 @@
     
     /* enable to debug node */
     int argc = 3;
-    char* argv[] = {(char *) "node", (char *) "--debug-brk", (char *) [webUrl UTF8String] };
-    
+    char* argv[] = {(char *) "node", (char *) "--debug", (char *) [webUrl UTF8String] };
+     
     /* disable if the above is enabled
     int argc = 2;
     char* argv[] = {(char *) "node", (char *) [webUrl UTF8String] };
-    */
     // end disable if the above is enabled
+    */
     
     node::Start(argc, argv);
 }

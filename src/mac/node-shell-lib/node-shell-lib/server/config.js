@@ -25,5 +25,5 @@
 /*global module */
 
 module.exports = {
-	clientPath: '/Users/jbrandt/development/brackets-app/brackets/src/'
+	clientPath: __dirname + '/brackets/'
 };

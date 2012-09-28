@@ -48,9 +48,9 @@ fs.statBrackets = function (path, callback) {
 
 // A test namespace
 
-var stupid = {};
+var test = {};
 
-stupid.reverse = function (s) {
+test.reverse = function (s) {
     return s.split("").reverse().join("");
 };
 
@@ -70,7 +70,7 @@ app.showOpenDialog = function(allowMultipleSelection, chooseDirectory, title, in
 var namespaces = {
     app : app,
     fs : fs,
-    stupid : stupid
+    test : test
 };
 
 function createCallback(id, ws) {
